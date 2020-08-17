@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Hard Rock Solution - Song Lyric App</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Custom css -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar  navbar-dark my-3">
+            <a class="navbar-brand" href="#">
+                <img src="images/logo.png" alt="Hard Rock Solution">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+                <img src="images/toggler-icon.svg" alt="">
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavId">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownId">
+                            <a class="dropdown-item" href="#">Action 1</a>
+                            <a class="dropdown-item" href="#">Action 2</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="content-area">
+            <div class="search-bar col-md-6 mx-auto">
+                <h1 class="text-center">Lyrics Search</h1>
+                <h6 style="text-align: center; color: red;">Note: Lyric is found at the bottom of the page.</h6>
+                <div class="search-box my-5">
+                    <input id = 'songName' type="text" class="form-control" placeholder="Enter song name">
+                    <button id = "searchBtn" class="btn btn-success search-btn">Search</button>
+                </div>
+            </div>
+            <!-- === Simple results === -->
+            <div class="d-flex justify-content-center">
+                <div class="">
+                    <p class="author lead"><strong id="title-1">Please search</strong> <span id='singer-1'>in the upper box.</span> <button id="lyricBtn-1" class="btn btn-success">Get Lyrics</button></p>
+
+                    <p class="author lead"><strong id="title-2">Please search</strong> <span id = 'singer-2'>in the upper box.</span> <button id="lyricBtn-2" class="btn btn-success">Get Lyrics</button></p>
+
+                    <p class="author lead"><strong id="title-3">Please search</strong>  <span id = 'singer-3'>in the upper box.</span> <button id="lyricBtn-3" class="btn btn-success">Get Lyrics</button></p>
+
+                    <p class="author lead"><strong id="title-4">Please search</strong>  <span id = 'singer-4'>in the upper box.</span> <button id="lyricBtn-4" class="btn btn-success">Get Lyrics</button></p>
+
+                    <p class="author lead"><strong id="title-5">Please search</strong>  <span id = 'singer-5'>in the upper box.</span> <button id="lyricBtn-5" class="btn btn-success">Get Lyrics</button></p>
+
+                    <p class="author lead"><strong id="title-6">Please search</strong> <span id = 'singer-6'>in the upper box.</span> <button id="lyricBtn-6" class="btn btn-success">Get Lyrics</button></p>
+
+                    <p class="author lead"><strong id="title-7">Please search</strong>  <span id="singer-7">in the upper box.</span> <button id="lyricBtn-7" class="btn btn-success">Get Lyrics</button></p>
+
+                    <p class="author lead"><strong id="title-8">Please search</strong>  <span id="singer-8">in the upper box.</span> <button id="lyricBtn-8" class="btn btn-success">Get Lyrics</button></p>
+
+                    <p class="author lead"><strong id="title-9">Please search</strong> <span id="singer-9">in the upper box.</span> <button id="lyricBtn-9" class="btn btn-success">Get Lyrics</button></p>
+
+                    <p class="author lead"><strong id="title-10">Please search</strong>  <span id="singer-10">in the upper box.</span> <button id="lyricBtn-10" class="btn btn-success">Get Lyrics</button></p>
+                </div>
+            </div>
+            <!-- Single Lyrics -->
+            <div class="single-lyrics text-center">
+                <button class="btn go-back">&lsaquo;</button>
+                <h2 id="songHeader" class="text-success mb-4"> </h2>
+                <pre id="songLyric" class="lyric text-white">
+
+                </pre>
+            </div>
+
+        </main>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Custom Script Here -->
+    <script>
+
+        const songNameObject = document.getElementById('songName');
+        const searchBtn = document.getElementById('searchBtn');
+        searchBtn.addEventListener("click", function(){
+            const songName = songNameObject.value;
+
+            fetch(`https://api.lyrics.ovh/suggest/${songName}`)
+            .then(response => response.json())
+            .then(data => {               
+
+                titleArray = [document.getElementById('title-1'), document.getElementById('title-2'), document.getElementById('title-3'), document.getElementById('title-4'), document.getElementById('title-5'), document.getElementById('title-6'), document.getElementById('title-7'), document.getElementById('title-8'), document.getElementById('title-9'), document.getElementById('title-10')];
+                
+                let singerArray = [document.getElementById('singer-1'), document.getElementById('singer-2'), document.getElementById('singer-3'), document.getElementById('singer-4'), document.getElementById('singer-5'), document.getElementById('singer-6'), document.getElementById('singer-7'), document.getElementById('singer-8'), document.getElementById('singer-9'), document.getElementById('singer-10')];
+
+                artistName = [];
+                songTitle = [];
+                
+                for (let index = 0; index < 10; index++) {
+                    const song = data.data[index].title;
+                    const artist = data.data[index].artist.name; 
+                    singerArray[index].innerHTML = ' by '+artist; 
+                    titleArray[index].innerHTML = song;   
+                    artistName.push(artist);
+                    songTitle.push(song);
+                }
+                
+                btnArray = [document.getElementById('lyricBtn-1'), document.getElementById('lyricBtn-2'), document.getElementById('lyricBtn-3'), document.getElementById('lyricBtn-4'), document.getElementById('lyricBtn-5'), document.getElementById('lyricBtn-6'), document.getElementById('lyricBtn-7'), document.getElementById('lyricBtn-8'), document.getElementById('lyricBtn-9'), document.getElementById('lyricBtn-10')]; 
+              
+
+                btnArray[0].addEventListener("click", function(){
+
+                        fetch(`https://api.lyrics.ovh/v1/${artistName[0]}/${songTitle[0]}`)
+                        .then(res => res.json())
+                        .then(data => {    
+
+                            document.getElementById('songHeader').innerHTML = songTitle[0];    
+
+                            document.getElementById('songLyric').innerHTML = data.lyrics;
+
+                   if (document.getElementById('songLyric').innerHTML === 'undefined') {
+
+                    document.getElementById('songLyric').innerHTML = 'Lyric is not available.';
+                       
+                   }}) });
+
+
+                btnArray[1].addEventListener("click", function(){
+
+                    fetch(`https://api.lyrics.ovh/v1/${artistName[1]}/${songTitle[1]}`)
+                    .then(res => res.json())
+                    .then(data => {    
+
+                        document.getElementById('songHeader').innerHTML = songTitle[1];    
+
+                        document.getElementById('songLyric').innerHTML = data.lyrics;
+
+                    if (document.getElementById('songLyric').innerHTML === 'undefined') {
+
+                    document.getElementById('songLyric').innerHTML = 'Lyric is not available.';
+
+                    }}) });
+
+
+                btnArray[2].addEventListener("click", function(){
+
+                    fetch(`https://api.lyrics.ovh/v1/${artistName[2]}/${songTitle[2]}`)
+                    .then(res => res.json())
+                    .then(data => {    
+
+                        document.getElementById('songHeader').innerHTML = songTitle[2];    
+
+                        document.getElementById('songLyric').innerHTML = data.lyrics;
+
+                    if (document.getElementById('songLyric').innerHTML === 'undefined') {
+
+                    document.getElementById('songLyric').innerHTML = 'Lyric is not available.';
+
+                    }}) });
+
+                btnArray[3].addEventListener("click", function(){
+
+                    fetch(`https://api.lyrics.ovh/v1/${artistName[3]}/${songTitle[3]}`)
+                    .then(res => res.json())
+                    .then(data => {    
+
+                        document.getElementById('songHeader').innerHTML = songTitle[3];    
+
+                        document.getElementById('songLyric').innerHTML = data.lyrics;
+
+                    if (document.getElementById('songLyric').innerHTML === 'undefined') {
+
+                    document.getElementById('songLyric').innerHTML = 'Lyric is not available.';
+
+                    }}) });
+
+                btnArray[4].addEventListener("click", function(){
+
+                    fetch(`https://api.lyrics.ovh/v1/${artistName[4]}/${songTitle[4]}`)
+                    .then(res => res.json())
+                    .then(data => {    
+
+                        document.getElementById('songHeader').innerHTML = songTitle[4];    
+
+                        document.getElementById('songLyric').innerHTML = data.lyrics;
+
+                    if (document.getElementById('songLyric').innerHTML === 'undefined') {
+
+                    document.getElementById('songLyric').innerHTML = 'Lyric is not available.';
+
+                    }}) });
+
+                btnArray[5].addEventListener("click", function(){
+
+                    fetch(`https://api.lyrics.ovh/v1/${artistName[5]}/${songTitle[5]}`)
+                    .then(res => res.json())
+                    .then(data => {    
+
+                        document.getElementById('songHeader').innerHTML = songTitle[5];    
+
+                        document.getElementById('songLyric').innerHTML = data.lyrics;                      
+
+                    if (document.getElementById('songLyric').innerHTML === 'undefined') {
+
+                    document.getElementById('songLyric').innerHTML = 'Lyric is not available.';
+
+                    }}) });
+
+                btnArray[6].addEventListener("click", function(){
+
+                    fetch(`https://api.lyrics.ovh/v1/${artistName[6]}/${songTitle[6]}`)
+                    .then(res => res.json())
+                    .then(data => {    
+
+                        document.getElementById('songHeader').innerHTML = songTitle[6];    
+
+                        document.getElementById('songLyric').innerHTML = data.lyrics;
+
+                    if (document.getElementById('songLyric').innerHTML === 'undefined') {
+
+                    document.getElementById('songLyric').innerHTML = 'Lyric is not available.';
+
+                    }}) });
+
+                btnArray[7].addEventListener("click", function(){
+
+                    fetch(`https://api.lyrics.ovh/v1/${artistName[7]}/${songTitle[7]}`)
+                    .then(res => res.json())
+                    .then(data => {    
+
+                        document.getElementById('songHeader').innerHTML = songTitle[7];    
+
+                        document.getElementById('songLyric').innerHTML = data.lyrics;
+
+                    if (document.getElementById('songLyric').innerHTML === 'undefined') {
+
+                    document.getElementById('songLyric').innerHTML = 'Lyric is not available.';
+
+                    }}) });
+
+                btnArray[8].addEventListener("click", function(){
+
+                    fetch(`https://api.lyrics.ovh/v1/${artistName[8]}/${songTitle[8]}`)
+                    .then(res => res.json())
+                    .then(data => {    
+
+                        document.getElementById('songHeader').innerHTML = songTitle[8];    
+
+                        document.getElementById('songLyric').innerHTML = data.lyrics;
+
+                    if (document.getElementById('songLyric').innerHTML === 'undefined') {
+
+                    document.getElementById('songLyric').innerHTML = 'Lyric is not available.';
+
+                    }}) });
+
+                btnArray[9].addEventListener("click", function(){
+
+                    fetch(`https://api.lyrics.ovh/v1/${artistName[9]}/${songTitle[9]}`)
+                    .then(res => res.json())
+                    .then(data => {    
+
+                        document.getElementById('songHeader').innerHTML = songTitle[9];    
+
+                        document.getElementById('songLyric').innerHTML = data.lyrics;
+
+                    if (document.getElementById('songLyric').innerHTML === 'undefined') {
+
+                    document.getElementById('songLyric').innerHTML = 'Lyric is not available.';
+
+                    }}) });
+
+                
+
+                }) });
+    </script>
+
+</body>
+
+</html>
